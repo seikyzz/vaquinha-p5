@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Phantom Thieves</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #000; background-image: radial-gradient(#333 1px, transparent 1px); background-size: 20px 20px; color: #fff; display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; font-family: 'Anton', sans-serif; }
+        .container { background-color: #111; border: 4px solid #e60012; width: 100%; max-width: 440px; padding: 25px; box-shadow: 10px 10px 0px #e60012; transform: skewX(-2deg); }
+        .inner { transform: skewX(2deg); }
+        h1 { font-size: 24px; color: #fff; background: #e60012; display: inline-block; padding: 5px 15px; margin-bottom: 20px; transform: rotate(-2deg); text-transform: uppercase; letter-spacing: 1px; }
+        .status-box { background: #fff; color: #000; padding: 15px; border: 3px solid #000; margin-bottom: 25px; box-shadow: -4px 4px 0px #e60012; }
+        .status-box p { font-size: 18px; margin-bottom: 5px; }
+        .status-box span { color: #e60012; }
+        label { display: block; font-size: 14px; color: #aaa; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px; }
+        input { width: 100%; padding: 12px; border: 3px solid #333; margin-bottom: 15px; background-color: #000; color: white; font-size: 16px; font-family: sans-serif; outline: none; transition: 0.2s; }
+        input:focus { border-color: #e60012; }
+        button { width: 100%; padding: 15px; border: 3px solid #000; font-family: 'Anton', sans-serif; font-size: 18px; cursor: pointer; background-color: #e60012; color: white; text-transform: uppercase; letter-spacing: 2px; box-shadow: -4px 4px 0px #fff; transition: 0.2s; margin-bottom: 10px; }
+        button:active { transform: translate(-2px, 2px); box-shadow: -2px 2px 0px #fff; }
+        .btn-save { background-color: #fff; color: #000; box-shadow: -4px 4px 0px #e60012; }
+        .btn-save:active { box-shadow: -2px 2px 0px #e60012; }
+        .divider { height: 2px; background: #333; margin: 25px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="inner">
+        <h1>PAINEL DE CONTROLE</h1>
+        
+        <div class="status-box">
+            <p>ARRECADADO: <span id="txt-arr">R$ 0,00</span></p>
+            <p>META: <span id="txt-meta">R$ 0,00</span></p>
+        </div>
+
+        <label>NOVA DOAÇÃO (R$)</label>
+        <input type="number" id="input-donation" placeholder="Ex: 10.50" step="0.01">
+        <button onclick="addDonation()">COMPUTAR VALOR</button>
+        
+        <div class="divider"></div>
+        
+        <label>TÍTULO DO BALÃO</label>
+        <input type="text" id="cfg-title" placeholder="Título">
+        
+        <label>SUA CHAVE PIX</label>
+        <input type="text" id="cfg-pix" placeholder="E-mail, CPF, Celular">
+        
+        <label>VALOR DA META (R$)</label>
+        <input type="number" id="cfg-meta" placeholder="Ex: 70.00">
+        
+        <button class="btn-save" onclick="saveSettings()">SALVAR ALTERAÇÕES</button>
+    </div>
+</div>
+<script>
+    let campaign = JSON.parse(localStorage.getItem('my_pix_vaquinha')) || { title: "Tome seu Tempo", pix: "seu-pix-aqui@email.com", meta: 70.00, arrecadado: 0.00 };
+    function loadData() {
+        document.getElementById('txt-arr').innerText = `R$ ${campaign.arrecadado.toFixed(2).replace('.', ',')}`;
+        document.getElementById('txt-meta').innerText = `R$ ${campaign.meta.toFixed(2).replace('.', ',')}`;
+        document.getElementById('cfg-title').value = campaign.title; 
+        document.getElementById('cfg-pix').value = campaign.pix; 
+        document.getElementById('cfg-meta').value = campaign.meta;
+    }
+    function addDonation() {
+        let input = document.getElementById('input-donation'); let val = parseFloat(input.value);
+        if (!isNaN(val) && val > 0) { campaign.arrecadado += val; input.value = ''; saveAndRefresh(); alert('Valor roubado... digo, recebido com sucesso!'); }
+    }
+    function saveSettings() {
+        campaign.title = document.getElementById('cfg-title').value || campaign.title;
+        campaign.pix = document.getElementById('cfg-pix').value || campaign.pix; 
+        let m = parseFloat(document.getElementById('cfg-meta').value);
+        if (!isNaN(m) && m > 0) campaign.meta = m; saveAndRefresh(); alert('Coração da página alterado!');
+    }
+    function saveAndRefresh() { localStorage.setItem('my_pix_vaquinha', JSON.stringify(campaign)); loadData(); }
+    loadData();
+</script>
+</body>
+</html>
