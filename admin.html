@@ -53,7 +53,8 @@
     </div>
 </div>
 <script>
-    let campaign = JSON.parse(localStorage.getItem('my_pix_vaquinha')) || { title: "Tome seu Tempo", pix: "seu-pix-aqui@email.com", meta: 70.00, arrecadado: 0.00 };
+    let campaign = JSON.parse(localStorage.getItem('my_pix_vaquinha')) || { title: "VAQUINHA", pix: "italogabriel25112007@gmail.com", meta: 70.00, arrecadado: 10.00 };
+    
     function loadData() {
         document.getElementById('txt-arr').innerText = `R$ ${campaign.arrecadado.toFixed(2).replace('.', ',')}`;
         document.getElementById('txt-meta').innerText = `R$ ${campaign.meta.toFixed(2).replace('.', ',')}`;
@@ -61,17 +62,32 @@
         document.getElementById('cfg-pix').value = campaign.pix; 
         document.getElementById('cfg-meta').value = campaign.meta;
     }
+    
     function addDonation() {
-        let input = document.getElementById('input-donation'); let val = parseFloat(input.value);
-        if (!isNaN(val) && val > 0) { campaign.arrecadado += val; input.value = ''; saveAndRefresh(); alert('Valor roubado... digo, recebido com sucesso!'); }
+        let input = document.getElementById('input-donation'); 
+        let val = parseFloat(input.value);
+        if (!isNaN(val) && val > 0) { 
+            campaign.arrecadado += val; 
+            input.value = ''; 
+            saveAndRefresh(); 
+            alert('Valor recebido com sucesso!'); 
+        }
     }
+    
     function saveSettings() {
         campaign.title = document.getElementById('cfg-title').value || campaign.title;
         campaign.pix = document.getElementById('cfg-pix').value || campaign.pix; 
         let m = parseFloat(document.getElementById('cfg-meta').value);
-        if (!isNaN(m) && m > 0) campaign.meta = m; saveAndRefresh(); alert('Coração da página alterado!');
+        if (!isNaN(m) && m > 0) campaign.meta = m; 
+        saveAndRefresh(); 
+        alert('Configurações alteradas com sucesso!');
     }
-    function saveAndRefresh() { localStorage.setItem('my_pix_vaquinha', JSON.stringify(campaign)); loadData(); }
+    
+    function saveAndRefresh() { 
+        localStorage.setItem('my_pix_vaquinha', JSON.stringify(campaign)); 
+        loadData(); 
+    }
+    
     loadData();
 </script>
 </body>
