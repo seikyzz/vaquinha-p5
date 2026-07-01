@@ -301,12 +301,16 @@
 </div>
 
 <script>
+    // Força a limpeza da memória local antiga para aplicar os dados novos que você digitar abaixo
+    localStorage.clear();
+
     function updateUI() {
-        let campaign = JSON.parse(localStorage.getItem('my_pix_vaquinha')) || {
-            title: "Me ajude a comprar p5r (Persona 5 Royal)",
-            pix: "italogabriel25112007@gmail.com",
-            meta: 75.00,
-            arrecadado: 20.00
+        // Altere os valores diretamente aqui para atualizar o site de todo mundo:
+        let campaign = {
+            title: "Me ajude a comprar p5r (Persona 5 Royal)", // Digite o Título aqui
+            pix: "italogabriel25112007@gmail.com",             // Digite seu PIX aqui
+            meta: 75.00,                                       // Digite o valor total da Meta aqui
+            arrecadado: 20.00                                  // Digite o quanto você já ganhou aqui
         };
 
         document.getElementById('view-title').innerText = campaign.title.toUpperCase();
@@ -324,9 +328,6 @@
     }
 
     updateUI();
-    window.addEventListener('storage', updateUI);
 </script>
 </body>
 </html>
-
-
